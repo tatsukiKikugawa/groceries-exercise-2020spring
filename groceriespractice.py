@@ -1,10 +1,5 @@
 # groceries.py
 
-#from pprint import pprint
-
-import operator  #always at the top
-
-
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -28,58 +23,58 @@ products = [
     {"id":20, "name": "Pomegranate Cranberry & Aloe Vera Enrich Drink", "department": "beverages", "aisle": "juice nectars", "price": 4.25}
 ] # based on data from Instacart: https://www.instacart.com/datasets/grocery-shopping-2017
 
-def to_usd(my_price):
-    """
-    Converts a numeric value to usd-formatted string, for printing and display purposes.
-    Source: https://github.com/prof-rossetti/intro-to-python/blob/master/notes/python/datatypes/numbers.md#formatting-as-currency
-    Param: my_price (int or float) like 4000.444444
-    Example: to_usd(4000.444444)
-    Returns: $4,000.44
-    """
-    return f"${my_price:,.2f}" #> $12,000.71
+
+#
+#PRODUCTS(PART1)
+#
+
+pro_count = len(products)
+ 
+print("--------------")
+print("THERE ARE " + str(pro_count) + " PRODUVTS.")
+print("--------------")
+ 
+ 
+def sort_by_name(any_product):
+    return any_product["name"]
+sorted_products = sorted(products, key=sort_by_name)
+ 
+for my_product in sorted_products:  #p referring each item in the list of products.
+    #price(my_product["name"])
+    #price_usd = my_product["price"]
+    price_usd = " ${0:.2f}".format(my_product["price"])
+    print(f" + " + my_product["name"] + price_usd)    
+#Dictionaries and string formatting from number
+
+#
+# Departments (Part2)
+#
+departments = []
+for my_product in products:
+    #print(my_product["department"])
+    departments.append(my_product["department"])
+    #if my_product["department"] not in departments:
+    #    departments.append(my_product["department"])
+
+
+unique_departments = list(set(departments))
+
+
+
+department_count = len(unique_departments)
 
 print("--------------")
-#print("THERE ARE 20 PRODUCTS:")
-#print("THERE ARE ", len(products), " PRODUCTS:")
-#print("THERE ARE " + str(len(products)) + " PRODUCTS:")
-print(f"THERE ARE {len(products)} PRODUCTS:")   #length of the items
+print("THERE ARE " + str(department_count) + " DEPARTMENTS.")
 print("--------------")
 
+unique_departments.sort()
 
-#{"id":1, 
-#"name": "Chocolate Sandwich Cookies", 
-#"department": "snacks", 
-#"aisle": "cookies cakes", 
-#"price": 3.50},
-
-sorted_products = sorted(products, key=operator.itemgetter("name"))
-for p in sorted_products: 
-    print(p["name"], to_usd(p["price"]))
-
-
-
-#This is our desired output.
-
-#--------------
-#THERE ARE 20 PRODUCTS:
-#--------------
-# + All-Seasons Salt ($4.99)
-# + Chocolate Fudge Layer Cake ($18.50)
-# + Chocolate Sandwich Cookies ($3.50)
-# + Cut Russet Potatoes Steam N' Mash ($4.25)
-# + Dry Nose Oil ($21.99)
-# + Fresh Scent Dishwasher Cleaner ($4.99)
-# + Gluten Free Quinoa Three Cheese & Mushroom Blend ($3.99)
-# + Green Chile Anytime Sauce ($7.99)
-# + Light Strawberry Blueberry Yogurt ($6.50)
-# + Mint Chocolate Flavored Syrup ($4.50)
-# + Overnight Diapers Size 6 ($25.50)
-# + Peach Mango Juice ($1.99)
-# + Pizza For One Suprema Frozen Pizza ($12.50)
-# + Pomegranate Cranberry & Aloe Vera Enrich Drink ($4.25)
-# + Pure Coconut Water With Orange ($3.50)
-# + Rendered Duck Fat ($9.99)
-# + Robust Golden Unsweetened Oolong Tea ($2.49)
-# + Saline Nasal Mist ($16.00)
-# + Smart Ones Classic Favorites Mini Rigatoni With Vodka Cream Sauce ($6.99)
-# + Sparkling Orange Juice & Prickly Pear Beverage ($2.99)
+for my_department in unique_departments:
+    matching_products_count = [my_product for my_product in products if my_product["department"] == my_department]
+    matching_products_count = len(matching_products_count)
+    if matching_products_count > 1:
+        label = "products"
+    else:
+        label = "product"
+    print(" + " + my_department.title() + " (" + str(matching_products_count) + " " + label + ")")
+#Filtering function
